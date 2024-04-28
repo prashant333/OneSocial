@@ -21,7 +21,7 @@ async def root():
     return {"message": "Welcome to my new api!!!"}
 
 @app.get("/post")
-def get_post():
+def get_posts():
     return {"data": my_post}
 
 @app.post("/create_post")

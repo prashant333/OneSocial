@@ -16,6 +16,11 @@ class Post(BaseModel):
 my_post = [{"titile": "title 1", "content":"content 1", "publish":"True", "id":"1"},
            {"titile": "title 2", "content":"content 2", "publish":"False", "id":"2"}]
 
+def find_post(id):
+    for p in my_post:
+        if p["id"] == id:
+            return p
+
 @app.get("/login")
 async def root():
     return {"message": "Welcome to my new api!!!"}
@@ -31,3 +36,7 @@ def createpost(user_post: Post):
     my_post.append(post_data)
     return{"data": my_post}
 
+@app.get("/posts/{id}")
+def get_posts(id: str):
+    user_post = find_post(id)
+    return {"data": user_post}

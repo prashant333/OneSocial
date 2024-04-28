@@ -12,9 +12,9 @@ class Post(BaseModel):
     publish: bool = True #if user does not specify publish value, default will be true.
     rating: Optional[int] = None
 
-@app.get("/how")
+@app.get("/login")
 async def root():
-    return {"message": "Welcome to my new api"}
+    return {"message": "Welcome to my new api!!!"}
 
 @app.get("/post")
 def get_post():

@@ -44,7 +44,7 @@ def find_index(id):
 async def root():
     return {"message": "Welcome to my new api!!!"}
 
-@app.get("/post")
+@app.get("/posts")
 def get_posts():
     cursor.execute("""select * from posts""")
     posts = cursor.fetchall()
@@ -61,7 +61,7 @@ def createpost(user_post: Post):
     # my_post.append(post_data)
     return{"data": new_post}
 
-@app.get("/posts/{id}")
+@app.get("/post/{id}")
 def get_posts(id: str, response:Response):
     user_post = find_post(id)
     if not user_post:

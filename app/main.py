@@ -62,23 +62,28 @@ def createpost(user_post: Post):
     return{"data": new_post}
 
 @app.get("/post/{id}")
-def get_posts(id: str, response:Response):
-    user_post = find_post(id)
-    if not user_post:
+def get_posts(id: int, response:Response):
+    cursor.execute("""select * from posts where id = %s""", (str(id)))
+    post_data = cursor.fetchone()
+    # user_post = find_post(id)
+    if not post_data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f'post with id: {id} was not found')
         # response.status_code = status.HTTP_404_NOT_FOUND
         # return {"message": f'post with id: {id} was not found'}
-    return {"data": user_post}
+    return {"data": post_data}
 
 @app.delete("/posts/{id}")
-def delete_post(id):
-    index = find_index(id)
-    if index == None:
+def delete_post(id: int):
+    cursor.execute("""delete from posts where id = %s returning *""", (str(id)))
+    deleted_post = cursor.fetchone()
+    conn.commit()
+
+    if deleted_post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f'Post with id: {id} does not exist')
-        
-    my_post.pop(index)
+    
+    # my_post.pop(index)
     return{"message": f"Post with id: {id} was deleted succesfully"}
 
 @app.put("/posts/{id}")

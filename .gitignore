@@ -3,3 +3,4 @@
 fastapi_venv/
 .fastapi_venv/
 FastAPI/
+__pycache__/

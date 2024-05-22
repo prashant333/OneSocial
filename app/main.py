@@ -7,8 +7,9 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
 from sqlalchemy.orm import Session
-import models
+import models, schema
 from database import engine, get_db
+
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -52,6 +53,8 @@ async def root():
 
 """ this is testing endpoint using ORM module sqlalchemy """
 
+""" this is testing endpoint using ORM module sqlalchemy """
+
 @app.get("/sqlalchemy")
 def test_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
@@ -62,10 +65,14 @@ def get_posts(db: Session = Depends(get_db)):
     # cursor.execute("""select * from posts""")
     # posts = cursor.fetchall()
     posts = db.query(models.Post).all()
+def get_posts(db: Session = Depends(get_db)):
+    # cursor.execute("""select * from posts""")
+    # posts = cursor.fetchall()
+    posts = db.query(models.Post).all()
     return {"data": posts}
 
 @app.post("/create_post", status_code=status.HTTP_201_CREATED)
-def createpost(user_post: Post, db: Session = Depends(get_db)):
+def createpost(user_post: schema.Post, db: Session = Depends(get_db)):
     # cursor.execute("""insert into posts (title, content, published) values (%s, %s, %s) returning *""",
     #                (user_post.title, user_post.content, user_post.publish))
     # new_post = cursor.fetchone()
@@ -73,6 +80,12 @@ def createpost(user_post: Post, db: Session = Depends(get_db)):
     # post_data = user_post.dict()
     # post_data['id'] = randrange(0,100000)
     # my_post.append(post_data)
+    
+    new_post = models.Post(**user_post.dict())
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
+    return{"post_created": new_post}
     
     new_post = models.Post(**user_post.dict())
     db.add(new_post)
@@ -92,9 +105,25 @@ def get_posts(id: int, response:Response, db: Session = Depends(get_db)):
     #     # return {"message": f'post with id: {id} was not found'}
 
     post_data = db.query(models.Post).filter(models.Post.id == id).first()
+def get_posts(id: int, response:Response, db: Session = Depends(get_db)):
+    # cursor.execute("""select * from posts where id = %s""", (str(id)))
+    # post_data = cursor.fetchone()
+    # # user_post = find_post(id)
+    # if not post_data:
+    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+    #                         detail=f'post with id: {id} was not found')
+    #     # response.status_code = status.HTTP_404_NOT_FOUND
+    #     # return {"message": f'post with id: {id} was not found'}
+
+    post_data = db.query(models.Post).filter(models.Post.id == id).first()
     return {"data": post_data}
 
 @app.delete("/posts/{id}")
+def delete_post(id: int, db: Session = Depends(get_db)):
+    # cursor.execute("""delete from posts where id = %s returning *""", (str(id)))
+    # deleted_post = cursor.fetchone()
+    # conn.commit()
+    post = db.query(models.Post).filter(models.Post.id == id)
 def delete_post(id: int, db: Session = Depends(get_db)):
     # cursor.execute("""delete from posts where id = %s returning *""", (str(id)))
     # deleted_post = cursor.fetchone()
@@ -106,13 +135,17 @@ def delete_post(id: int, db: Session = Depends(get_db)):
                             detail=f'Post with id: {id} does not exist')
     post.delete(synchronize_session=False)
     db.commit()
+    post.delete(synchronize_session=False)
+    db.commit()
     
+    # # my_post.pop(index)
+
     # # my_post.pop(index)
 
     return{"message": f"Post with id: {id} was deleted succesfully"}
 
 @app.put("/posts/{id}")
-def update_post(id: int, post:Post, db: Session = Depends(get_db)):
+def update_post(id: int, post:schema.Post, db: Session = Depends(get_db)):
     # index = find_index(id)
     # cursor.execute("""update posts set title= %s, content = %s, published = %s where id= %s returning *""",
     #                (post.title, post.content, post.publish, str(id)))
@@ -120,12 +153,12 @@ def update_post(id: int, post:Post, db: Session = Depends(get_db)):
     # conn.commit()
 
     post_query = db.query(models.Post).filter(models.Post.id == id)
-    print(post_query)
-
     post_1 = post_query.first()
     if post_1 == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f'Post with id: {id} does not exist')
+    post_query.update(post.dict(), synchronize_session=False)
+    db.commit()
     post_query.update(post.dict(), synchronize_session=False)
     db.commit()
     

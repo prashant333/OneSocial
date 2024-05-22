@@ -1,0 +1,38 @@
+[33m73aa716[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{0}: commit: added schema file for pydantic validation
+[33mf4fd296[m HEAD@{1}: reset: moving to HEAD~
+[33m2206c0f[m HEAD@{2}: reset: moving to HEAD
+[33m2206c0f[m HEAD@{3}: commit (amend): created schema file for handling pydantic schema
+[33m312fafd[m[33m ([m[1;31mprashant333/main[m[33m)[m HEAD@{4}: commit: code udpated wrt to sqlalchemy orm model
+[33mf4fd296[m HEAD@{5}: commit: test api made with sqlalchemy
+[33me056831[m HEAD@{6}: commit: database connection with timestamp added
+[33mb18f76c[m HEAD@{7}: commit: updated gitignore
+[33m095c3e1[m HEAD@{8}: commit: added database using sqlalchemy
+[33m24b074b[m HEAD@{9}: commit: update_post endpoint updated
+[33m5b0cbce[m HEAD@{10}: commit: get individual post and delete operations done
+[33m009cece[m HEAD@{11}: commit: get all post and individual post endpoint variable changed
+[33m8fa4e3f[m HEAD@{12}: commit: inserting data into postgresql
+[33m5e6b7c0[m HEAD@{13}: commit: first connection with database established and queried
+[33m41f4a23[m HEAD@{14}: checkout: moving from master to main
+[33m9974b0f[m[33m ([m[1;31mprashant333/master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{15}: checkout: moving from main to master
+[33m41f4a23[m HEAD@{16}: pull: Fast-forward
+[33m18ce3b1[m HEAD@{17}: checkout: moving from master to main
+[33m9974b0f[m[33m ([m[1;31mprashant333/master[m[33m, [m[1;32mmaster[m[33m)[m HEAD@{18}: commit: library file auto updated, need to move to gitignore
+[33mc387b9b[m HEAD@{19}: commit: updated readme file
+[33meb0270a[m HEAD@{20}: commit: gitignore file updated
+[33m9a44443[m HEAD@{21}: commit: connecting with database
+[33m2450362[m HEAD@{22}: commit: Readme file updated
+[33m3a1e7e5[m HEAD@{23}: commit: gitignore file added
+[33m14aef4d[m HEAD@{24}: commit: main file moved to app folder
+[33m4dfc573[m HEAD@{25}: commit: new app folder created, initiallized with package file
+[33m2317692[m HEAD@{26}: commit: put method implementated for updating api
+[33m9708d09[m HEAD@{27}: commit: delete method implementated
+[33mec2792e[m HEAD@{28}: commit: working with status code
+[33m13f8188[m HEAD@{29}: commit: accessing individual post using get
+[33m3ba45be[m HEAD@{30}: commit: method for post updated
+[33m4ad2319[m HEAD@{31}: commit: create an in-memory list of posts
+[33m049b37f[m HEAD@{32}: commit: lib folder updates
+[33ma764a98[m HEAD@{33}: commit: modified path/api endpoint
+[33mcb6c922[m HEAD@{34}: commit: Pydantic input validation updated
+[33m9f0c70a[m HEAD@{35}: commit: Pydantic user input validation added
+[33mb533475[m HEAD@{36}: commit: initial commit
+[33m18ce3b1[m HEAD@{37}: initial pull

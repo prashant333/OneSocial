@@ -16,11 +16,6 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# pydantic model for input validation. 
-class Post(BaseModel):
-    title: str
-    content: str
-    published: bool = True #if user does not specify publish value, default will be true.
 
 while True:
     try:

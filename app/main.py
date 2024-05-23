@@ -61,7 +61,7 @@ def get_posts(db: Session = Depends(get_db)):
     return {"data": posts}
 
 @app.post("/create_post", status_code=status.HTTP_201_CREATED)
-def createpost(user_post: schema.PostBase, db: Session = Depends(get_db)):
+def createpost(user_post: schema.PostCreate, db: Session = Depends(get_db)):
     # cursor.execute("""insert into posts (title, content, published) values (%s, %s, %s) returning *""",
     #                (user_post.title, user_post.content, user_post.publish))
     # new_post = cursor.fetchone()
@@ -106,7 +106,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
     return{"message": f"Post with id: {id} was deleted succesfully"}
 
 @app.put("/posts/{id}")
-def update_post(id: int, post:schema.PostBase, db: Session = Depends(get_db)):
+def update_post(id: int, post:schema.PostCreate, db: Session = Depends(get_db)):
     # index = find_index(id)
     # cursor.execute("""update posts set title= %s, content = %s, published = %s where id= %s returning *""",
     #                (post.title, post.content, post.publish, str(id)))

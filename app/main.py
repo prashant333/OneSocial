@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import FastAPI, Response, status, HTTPException, Depends
 from fastapi.params import Body
 from pydantic import BaseModel
@@ -44,7 +44,6 @@ def find_index(id):
 async def root():
     return {"message": "Welcome to my new api!!!"}
 
-""" this is testing endpoint using ORM module sqlalchemy """
 
 """ this is testing endpoint using ORM module sqlalchemy """
 
@@ -58,9 +57,9 @@ def get_posts(db: Session = Depends(get_db)):
     # cursor.execute("""select * from posts""")
     # posts = cursor.fetchall()
     posts = db.query(models.Post).all()
-    return {"data": posts}
+    return posts
 
-@app.post("/create_post", status_code=status.HTTP_201_CREATED)
+@app.post("/create_post", status_code=status.HTTP_201_CREATED, response_model=schema.PostResponse)
 def createpost(user_post: schema.PostCreate, db: Session = Depends(get_db)):
     # cursor.execute("""insert into posts (title, content, published) values (%s, %s, %s) returning *""",
     #                (user_post.title, user_post.content, user_post.publish))
@@ -74,9 +73,9 @@ def createpost(user_post: schema.PostCreate, db: Session = Depends(get_db)):
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
-    return{"post_created": new_post}
+    return new_post
 
-@app.get("/post/{id}")
+@app.get("/post/{id}", response_model=List[schema.PostResponse])
 def get_posts(id: int, response:Response, db: Session = Depends(get_db)):
     # cursor.execute("""select * from posts where id = %s""", (str(id)))
     # post_data = cursor.fetchone()
@@ -88,7 +87,7 @@ def get_posts(id: int, response:Response, db: Session = Depends(get_db)):
     #     # return {"message": f'post with id: {id} was not found'}
 
     post_data = db.query(models.Post).filter(models.Post.id == id).first()
-    return {"data": post_data}
+    return post_data
 
 @app.delete("/posts/{id}")
 def delete_post(id: int, db: Session = Depends(get_db)):

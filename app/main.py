@@ -125,3 +125,11 @@ def update_post(id: int, post:schema.PostCreate, db: Session = Depends(get_db)):
     # my_post[index] = post_dict
     
     return{"data": f"Post with id: {id} was updated successfully "}
+
+@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schema.UserResponse)
+def create_user(user: schema.UserCreate, db: Session = Depends(get_db)):
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user 

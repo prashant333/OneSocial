@@ -52,7 +52,7 @@ def test_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return {"status":posts}
 
-@app.get("/posts")
+@app.get("/posts", response_model=List[schema.PostResponse])
 def get_posts(db: Session = Depends(get_db)):
     # cursor.execute("""select * from posts""")
     # posts = cursor.fetchall()
@@ -104,7 +104,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
     return{"message": f"Post with id: {id} was deleted succesfully"}
 
-@app.put("/posts/{id}")
+@app.put("/posts/{id}", response_model=schema.PostResponse)
 def update_post(id: int, post:schema.PostCreate, db: Session = Depends(get_db)):
     # index = find_index(id)
     # cursor.execute("""update posts set title= %s, content = %s, published = %s where id= %s returning *""",

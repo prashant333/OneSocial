@@ -9,7 +9,7 @@ import time
 from sqlalchemy.orm import Session
 import models, schema, utils
 from database import engine, get_db
-from router import post, user
+from router import post, user, auth
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -43,7 +43,4 @@ def find_index(id):
         
 app.include_router(post.router)
 app.include_router(user.router)
-
-@app.get("/login")
-async def root():
-    return {"message": "Welcome to my new api!!!"}
+app.include_router(auth.router)

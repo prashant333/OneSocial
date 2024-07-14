@@ -38,7 +38,7 @@ def createpost(user_post: schema.PostCreate, db: Session = Depends(get_db), curr
     # post_data['id'] = randrange(0,100000)
     # my_post.append(post_data)
 
-    new_post = models.Post(**user_post.dict())
+    new_post = models.Post(owner_id=current_user_id.id,**user_post.dict())
     db.add(new_post)
     db.commit()
     db.refresh(new_post)

@@ -85,7 +85,7 @@ def delete_post(id: int, db: Session = Depends(get_db), current_user_id: int = D
 
     return{"message": f"Post with id: {id} was deleted succesfully"}
 
-@router.put("/{id}")
+@router.put("/{id}", response_model=schema.PostResponse)
 def update_post(id: int, post:schema.PostCreate, db: Session = Depends(get_db), current_user_id: int = Depends(oauth2.get_current_user)):
     # index = find_index(id)
     # cursor.execute("""update posts set title= %s, content = %s, published = %s where id= %s returning *""",
@@ -109,4 +109,5 @@ def update_post(id: int, post:schema.PostCreate, db: Session = Depends(get_db), 
     # post_dict['id'] = id
     # my_post[index] = post_dict
     
-    return{"data": f"Post with id: {id} was updated successfully "}
+    # return{"data": f"Post with id: {id} was updated successfully "}
+    return post_1

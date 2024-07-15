@@ -25,7 +25,7 @@ def test_posts(db: Session = Depends(get_db)):
 def get_posts(db: Session = Depends(get_db), current_user_id: int = Depends(oauth2.get_current_user)):
     # cursor.execute("""select * from posts""")
     # posts = cursor.fetchall()
-    posts = db.query(models.Post).all()
+    posts = db.query(models.Post).filter(models.Post.owner_id == current_user_id.id).all()
     return posts
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schema.PostResponse)
@@ -44,7 +44,7 @@ def createpost(user_post: schema.PostCreate, db: Session = Depends(get_db), curr
     db.refresh(new_post)
     return new_post
 
-@router.get("/{id}", response_model=List[schema.PostResponse])
+@router.get("/{id}", response_model=schema.PostResponse)
 def get_posts(id: int, response:Response, db: Session = Depends(get_db), current_user_id: int = Depends(oauth2.get_current_user)):
     # cursor.execute("""select * from posts where id = %s""", (str(id)))
     # post_data = cursor.fetchone()
@@ -56,6 +56,12 @@ def get_posts(id: int, response:Response, db: Session = Depends(get_db), current
     #     # return {"message": f'post with id: {id} was not found'}
 
     post_data = db.query(models.Post).filter(models.Post.id == id).first()
+    
+#   if a post does not exits, which means is no owner of that post was found, hence throw out an error for not authorized. 
+    if not post_data or post_data.owner_id != current_user_id.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, 
+                            detail="Not authorized to perform requested action.")
+
     return post_data
 
 @router.delete("/{id}")

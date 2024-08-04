@@ -22,10 +22,11 @@ def test_posts(db: Session = Depends(get_db)):
     return {"status":posts}
 
 @router.get("/", response_model=List[schema.PostResponse])
-def get_posts(db: Session = Depends(get_db), current_user_id: int = Depends(oauth2.get_current_user)):
+def get_posts(db: Session = Depends(get_db), current_user_id: int = Depends(oauth2.get_current_user),
+              limit: int = 10):
     # cursor.execute("""select * from posts""")
     # posts = cursor.fetchall()
-    posts = db.query(models.Post).filter(models.Post.owner_id == current_user_id.id).all()
+    posts = db.query(models.Post).filter(models.Post.owner_id == current_user_id.id).limit(limit).all()
     return posts
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schema.PostResponse)

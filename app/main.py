@@ -15,18 +15,18 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-
-while True:
-    try:
-        conn = psycopg2.connect(host = 'localhost', database = 'fastapi', user='postgres', 
-        password = 'thisisnewPassword#', cursor_factory=RealDictCursor)
-        cursor = conn.cursor()
-        print("Database connected")
-        break
-    except Exception as error:
-        print("Connection to databasea failed")
-        print("Error:", error)
-        time.sleep(4)
+#code for connecting database and using raw sql
+# while True:
+#     try:
+#         conn = psycopg2.connect(host = 'localhost', database = 'fastapi', user='postgres', 
+#         password = 'thisisnewPassword#', cursor_factory=RealDictCursor)
+#         cursor = conn.cursor()
+#         print("Database connected")
+#         break
+#     except Exception as error:
+#         print("Connection to databasea failed")
+#         print("Error:", error)
+#         time.sleep(4)
 
 my_post = [{"titile": "title 1", "content":"content 1", "publish":"True", "id":"1"},
            {"titile": "title 2", "content":"content 2", "publish":"False", "id":"2"}]
